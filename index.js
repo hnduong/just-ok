@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const ngrok = require('ngrok');
@@ -8,7 +10,7 @@ const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const port = process.env.PORT || 80;
-const useNgrok = Boolean(process.env.ngrok);
+const enableNgrok = !Boolean(process.env.DISABLE_NGROK);
 
 app.use(jsonParser, urlencodedParser);
 
@@ -20,7 +22,7 @@ const bootstrap = async () => {
   // setup server
   app.listen(port);
   console.log(`http://localhost:${port}`);
-  if (useNgrok){
+  if (enableNgrok) {
     // setup ngrok
     const url = await ngrok.connect({
       addr: port,
@@ -28,7 +30,6 @@ const bootstrap = async () => {
     console.log(`Forwarding: ${url} -> http://localhost:${port}`);
     console.log(`Inspector: http://localhost:4040`);
   }
-
 };
 
 bootstrap();
