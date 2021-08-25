@@ -1,6 +1,6 @@
 {
   "name": "just-ok",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Just an OK server",
   "main": "index.js",
   "repository": {

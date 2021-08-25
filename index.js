@@ -11,6 +11,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const port = process.env.PORT || 80;
 const enableNgrok = !Boolean(process.env.DISABLE_NGROK);
+const enableServer = !Boolean(process.env.DISABLE_SERVER);
 
 app.use(jsonParser, urlencodedParser);
 
@@ -19,9 +20,12 @@ app.all('*', function (req, res) {
 });
 
 const bootstrap = async () => {
-  // setup server
-  app.listen(port);
-  console.log(`http://localhost:${port}`);
+  if (enableServer) {
+    // setup server
+    app.listen(port);
+    console.log(`http://localhost:${port}`);
+  }
+
   if (enableNgrok) {
     // setup ngrok
     const url = await ngrok.connect({
